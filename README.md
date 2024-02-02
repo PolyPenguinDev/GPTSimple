@@ -62,7 +62,7 @@ chat.generate(stream=True, invisible=True)
 after a generation that doesn't use streaming, you will get a response object
 ```python
 response.text #output text from the AI
-responce.json #exact output from the API
+response.json #exact output from the API
 response.message #output text in the {'role':'assistant', 'content':'...'} format
 response.output_tokens #amount of tokens in the output
 #there are more but i can't find a use for them
@@ -76,4 +76,10 @@ for token in response: #will be the number of tokens in the response and a extra
       token.message #content of the token in the {'role':'assistant', 'content':'...'} format (will be {'role':'assistant', 'content':'None'} if the generation is over)
       ai.print_token(token) #will print the token in a way where you can see it write as it generates
 ```
-
+There are a few varibles that might be useful to edit or see
+```python
+chat.model #change the model (great for compairing)
+chat.base_url #only really used along side changing chat.model
+chat.api_key
+chat.history #set or view the chat history in OpenAI format
+```
