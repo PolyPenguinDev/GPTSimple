@@ -59,5 +59,9 @@ chat.generate(stream=True) #get output as it's generating
 chat.generate(invisible=True) #get output without adding it to the history
 chat.generate(stream=True, invisible=True)
 ```
-
-
+after a generation that doesn't use streaming, you will get a response object
+```python
+response.text #output text from the AI
+responce.json #exact output from the API
+response.message #output text in the {'role':'assistant', 'content':'...'} format
+```
