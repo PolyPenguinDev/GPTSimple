@@ -45,3 +45,19 @@ ai.conversation(system_prompt="you will taunt the user and make them sad")
 #history (overrides system_prompt)
 ai.conversation(history=[{"role":"user", "content":"hi"},{"role":"assistant", "content":"i hate you"},{"role":"user", "content":"RUDE!"}])
 ```
+after you define the conversation, there are two methods to it 
+```python
+#ask
+chat.ask("what is your name?") #ask a question and add it to history and get the output
+chat.ask("what is your name?", stream=True) #get output as it's generating
+chat.ask("what is your name?", invisible=True) #get output without adding it to the history
+chat.ask("what is your name?", stream=True, invisible=True)
+
+#generate
+chat.generate() #generate the output just from the history, without a question
+chat.generate(stream=True) #get output as it's generating
+chat.generate(invisible=True) #get output without adding it to the history
+chat.generate(stream=True, invisible=True)
+```
+
+
