@@ -64,4 +64,16 @@ after a generation that doesn't use streaming, you will get a response object
 response.text #output text from the AI
 responce.json #exact output from the API
 response.message #output text in the {'role':'assistant', 'content':'...'} format
+response.output_tokens #amount of tokens in the output
+#there are more but i can't find a use for them
 ```
+If you use streaming, you will get a streamingResponse generator which, when iterated, will return a token object
+```python
+for token in response: #will be the number of tokens in the response and a extra token to show that it is over
+      token.text #content of the token (will be None if the generation is over)
+      token.model #will return the model you are using
+      token.response #pure response from the API
+      token.message #content of the token in the {'role':'assistant', 'content':'...'} format (will be {'role':'assistant', 'content':'None'} if the generation is over)
+      ai.print_token(token) #will print the token in a way where you can see it write as it generates
+```
+
