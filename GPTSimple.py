@@ -1,5 +1,35 @@
 import requests
 import json
+from PIL import Image
+import io
+import base64
+
+def generate_image(prompt, width=1024, height=1024, num_inference_steps=4, seed=None, deepinfra_api_key=""):
+    url = 'https://api.deepinfra.com/v1/inference/black-forest-labs/FLUX-1-schnell'
+    headers = {
+        'Authorization': 'bearer '+deepinfra_api_key
+    }
+    files = {
+        'prompt': prompt,
+        'width': width,
+        'height': height,
+        'num_inference_steps': num_inference_steps,
+    }
+    if seed is not None:
+        files['seed'] = seed
+
+    # Make the POST request
+    response = requests.post(url, headers=headers, files=files)
+    print(response.text)
+    # Extract the image URL from the response
+    data_uri = response.json()["images"][0]
+    base64_data = data_uri.split(',')[1]
+    image_data = base64.b64decode(base64_data)
+
+    # Create a BytesIO stream and open the image with PIL
+    image_stream = io.BytesIO(image_data)
+    image = Image.open(image_stream)
+    return image
 base_urls = {'deepinfra':"https://api.deepinfra.com/v1/openai/chat/completions", "openai":"https://api.openai.com/v1/chat/completions"}
 def print_token(token):
     if token.token == None:
@@ -68,7 +98,7 @@ class conversation:
             self.total_tokens = json['usage']['total_tokens']
     def __init__(self, api_key='', model='gpt-3.5-turbo', history=None, system_prompt="You are a helpful assistant", base_url="openai"):
         if base_url.lower() == "deepinfra" and model == "gpt-3.5-turbo":
-            model = "meta-llama/Llama-2-70b-chat-hf"
+            model = "meta-llama/Meta-Llama-3.1-405B-Instruct"
         self.base_url = base_url.lower()
         self.api_key = api_key
         self.model = model
