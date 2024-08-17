@@ -20,7 +20,6 @@ def generate_image(prompt, width=1024, height=1024, num_inference_steps=4, seed=
 
     # Make the POST request
     response = requests.post(url, headers=headers, files=files)
-    print(response.text)
     # Extract the image URL from the response
     data_uri = response.json()["images"][0]
     base64_data = data_uri.split(',')[1]
